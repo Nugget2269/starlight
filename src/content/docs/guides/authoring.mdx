@@ -1,0 +1,56 @@
+---
+title: Authoring Tools
+---
+
+{/* TODO: Comparison Table */}
+
+
+## Typst
+
+Typst is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.
+
+### Template
+
+```typst
+//template.typ
+
+#let apply-template(body) = [
+  #set text(lang: "de")
+  #set page(
+    margin: auto,
+    paper: "a4"
+  )
+  #set outline(indent: 1.2em)
+  #let clean_numbering(..schemes) = {
+  (..nums) => {
+    let (section, ..subsections) = nums.pos()
+    let (section_scheme, ..subschemes) = schemes.pos()
+
+    if subsections.len() == 0 {
+      numbering(section_scheme, section)
+    } else if subschemes.len() == 0 {
+      numbering(section_scheme, ..nums.pos())
+    }
+    else {
+      clean_numbering(..subschemes)(..subsections)
+    }
+  }
+  }
+  #set heading(numbering: clean_numbering("A.", "I.", "1.a."))
+
+  #set math.equation(numbering: "(1)", supplement: "equation")
+
+  // Customization of text elements
+  #set par(justify: true)
+  #show link: underline
+
+  // here are replacements for commonly used shortcuts
+  #show "z.B.": text[zum Beispiel]
+
+  #body // IMPORTANT: must be at the very bottom, ekse the body will be   overwritten
+]
+```
+
+## Markdown
+
+## Latex
